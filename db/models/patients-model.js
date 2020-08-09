@@ -61,7 +61,7 @@ const patientSchema = mongoose.Schema({
         },
         chiefComplaint: {type: String},
         diagnosis: {type: String},
-        advise: {type: String}
+        advice: {type: String}
     }]
 });
 
