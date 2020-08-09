@@ -1,0 +1,22 @@
+{
+  "name": "doctor-online",
+  "version": "1.0.0",
+  "description": "the doctor is online application",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "dev": "env-cmd -f ./config/dev.env nodemon index.js",
+    "test": ""
+  },
+  "author": "jiro quijano",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.28",
+    "validator": "^13.1.1"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "nodemon": "^2.0.4"
+  }
+}
