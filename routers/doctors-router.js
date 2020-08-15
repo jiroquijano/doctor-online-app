@@ -46,6 +46,14 @@ router.get('/api/logout', authentication, async(req,res)=>{
     }
 });
 
+router.get('/api/doctor/me', authentication, (req,res)=>{
+    try {
+        res.send(req.user);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 router.get('/api/doctors', async (req,res)=>{
     try{
         const doctorsList = await Doctor.find({});
