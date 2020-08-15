@@ -1,6 +1,7 @@
 const express = require('express');
 const router = new express.Router();
 const Doctor = require('../db/models/doctors-model');
+const authentication = require('../middleware/auth');
 
 const showPublicInformation = (doctorsList)=>{
     const result = doctorsList.map((doctor)=>{
@@ -13,7 +14,7 @@ const showPublicInformation = (doctorsList)=>{
     return result;
 };
 
-router.post('/api/doctor/add', async(req,res)=>{
+router.post('/api/doctor/register', async(req,res)=>{
     try{
         const doctor = new Doctor(req.body);
         await doctor.generateToken();
@@ -27,8 +28,19 @@ router.post('/api/doctor/add', async(req,res)=>{
 router.post('/api/login', async (req,res)=>{
     try {
         const doctor = await Doctor.verifyCredentials(req.body.email, req.body.password);
-        await doctor.generateToken();
-        res.send({doctor});
+        const token = await doctor.generateToken();
+        res.send({doctor,token});
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+router.get('/api/logout', authentication, async(req,res)=>{
+    try {
+        const user = req.user;
+        user.token = ' ';
+        await user.save();
+        res.send(user);
     } catch (error) {
         res.status(500).send(error.message);
     }
