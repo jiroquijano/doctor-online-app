@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcrypt');
 
 const doctorSchema = mongoose.Schema({
     name:{
@@ -17,6 +18,7 @@ const doctorSchema = mongoose.Schema({
     email:{
         type: String,
         required: true,
+        unique: true,
         validate (emailAddress){
             if(!validator.isEmail(emailAddress)){
                 throw new Error('email address is not valid');
@@ -43,6 +45,15 @@ const doctorSchema = mongoose.Schema({
         date: {type: String}
     }],
     contactNumer:{type: Number}
+});
+
+doctorSchema.pre('save', async function(next){
+    const doctor = this;
+    if(doctor.isModified('password')){
+        const encrypted = await bcrypt.hash(doctor.password,8);
+        doctor.password = encrypted;
+    }
+    next();
 });
 
 const Doctors = new mongoose.model('Doctor', doctorSchema);
