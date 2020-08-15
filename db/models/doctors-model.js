@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const SECRET_KEY = process.env.SECRET||'SECRET';
 
 const doctorSchema = mongoose.Schema({
     name:{
@@ -24,6 +26,10 @@ const doctorSchema = mongoose.Schema({
                 throw new Error('email address is not valid');
             }
         }
+    },
+    token: {
+        type: String,
+        required: true
     },
     password:{
         type: String,
@@ -55,6 +61,22 @@ doctorSchema.pre('save', async function(next){
     }
     next();
 });
+
+doctorSchema.methods.generateToken = async function(){
+    const doctor = this;
+    const token = await jwt.sign({_id:doctor.id}, SECRET_KEY);
+    doctor.token = token;
+    await doctor.save();
+    return token;
+};
+
+doctorSchema.statics.verifyCredentials = async (email, password)=>{
+    const doctor = await Doctors.findOne({email});
+    if(!doctor) throw new Error('Credentials incorrect');
+    const result = await bcrypt.compare(password, doctor.password);
+    if(!result) throw new Error('Credentials incorrect');
+    return doctor;
+};
 
 const Doctors = new mongoose.model('Doctor', doctorSchema);
 module.exports = Doctors;

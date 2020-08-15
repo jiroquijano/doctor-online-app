@@ -16,9 +16,20 @@ const showPublicInformation = (doctorsList)=>{
 router.post('/api/doctor/add', async(req,res)=>{
     try{
         const doctor = new Doctor(req.body);
+        await doctor.generateToken();
         await doctor.save();
-        res.send('success!');
+        res.send(doctor);
     }catch(error){
+        res.status(500).send(error.message);
+    }
+});
+
+router.post('/api/login', async (req,res)=>{
+    try {
+        const doctor = await Doctor.verifyCredentials(req.body.email, req.body.password);
+        await doctor.generateToken();
+        res.send({doctor});
+    } catch (error) {
         res.status(500).send(error.message);
     }
 });
