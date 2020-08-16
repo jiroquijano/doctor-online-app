@@ -6,7 +6,9 @@
   "scripts": {
     "start": "nodemon index.js",
     "dev": "env-cmd -f ./config/dev.env nodemon index.js",
-    "dev-local": "env-cmd -f ./config/dev-local.env nodemon index.js",
+    "local-server": "env-cmd -f ./config/dev-local.env nodemon index.js",
+    "client": "cd client && npm start",
+    "dev-local": "concurrently \"npm run local-server\" \"npm run client\"",
     "test": ""
   },
   "author": "jiro quijano",
@@ -21,5 +23,6 @@
   "devDependencies": {
     "env-cmd": "^10.1.0",
     "nodemon": "^2.0.4"
-  }
+  },
+  "proxy": "http://localhost:5000"
 }

@@ -25,7 +25,7 @@ router.post('/api/doctor/register', async(req,res)=>{
     }
 });
 
-router.post('/api/login', async (req,res)=>{
+router.post('/api/doctor/login', async (req,res)=>{
     try {
         const doctor = await Doctor.verifyCredentials(req.body.email, req.body.password);
         const token = await doctor.generateToken();
@@ -35,7 +35,7 @@ router.post('/api/login', async (req,res)=>{
     }
 });
 
-router.get('/api/logout', authentication, async(req,res)=>{
+router.get('/api/doctor/logout', authentication, async(req,res)=>{
     try {
         const user = req.user;
         user.token = ' ';

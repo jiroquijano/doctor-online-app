@@ -7,6 +7,6 @@ const doctorsRouter = require('./routers/doctors-router');
 app.use(express.json());
 app.use(doctorsRouter);
 
-app.listen(3000, ()=>{
+app.listen(PORT, ()=>{
     console.log(`listening on port: ${PORT}`)
 });
