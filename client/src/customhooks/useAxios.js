@@ -28,7 +28,7 @@ const useAxios = (url, options)=>{
         };
 
         callAxios();
-    },[]);
+    },[url,options]);
 
     return {response, loading, error};
 };

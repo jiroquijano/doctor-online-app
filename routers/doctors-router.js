@@ -6,6 +6,7 @@ const authentication = require('../middleware/auth');
 const showPublicInformation = (doctorsList)=>{
     const result = doctorsList.map((doctor)=>{
         return {
+            id: doctor._id,
             name: doctor.name,
             specializations: doctor.specializations,
             email: doctor.email
