@@ -24,6 +24,10 @@ const LoginForm = () => {
             alert("log in failed");
             localStorage.removeItem("token");
         });
+        result.finally(()=>{
+            setEmail('');
+            setPassword('');
+        });
     };
 
     return (
@@ -32,11 +36,15 @@ const LoginForm = () => {
                 placeholder="email"
                 type="text"
                 onChange={(e)=>setEmail(e.target.value)}
+                name="email"
+                value={email}
             />
             <input 
                 placeholder="password"
                 type="password"
                 onChange={(e)=>setPassword(e.target.value)}
+                name="password"
+                value={password}
             />
             <button>Log in</button>
         </form>
