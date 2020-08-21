@@ -17,7 +17,7 @@ const useAxios = (url, options)=>{
 
         const callAxios = async () =>{
             setLoading(true);
-            if(url===undefined || !options) return;
+            if(url==='') return;
             try {
                 const result = await axios(config);
                 setResponse(result.data);
