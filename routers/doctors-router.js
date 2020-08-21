@@ -15,38 +15,6 @@ const showPublicInformation = (doctorsList)=>{
     return result;
 };
 
-router.post('/api/doctor/register', async(req,res)=>{
-    try{
-        const doctor = new Doctor(req.body);
-        await doctor.generateToken();
-        await doctor.save();
-        res.send(doctor);
-    }catch(error){
-        res.status(500).send(error.message);
-    }
-});
-
-router.post('/api/doctor/login', async (req,res)=>{
-    try {
-        const doctor = await Doctor.verifyCredentials(req.body.email, req.body.password);
-        const token = await doctor.generateToken();
-        res.send({doctor,token});
-    } catch (error) {
-        res.status(500).send(error.message);
-    }
-});
-
-router.get('/api/doctor/logout', authentication, async(req,res)=>{
-    try {
-        const user = req.user;
-        user.token = ' ';
-        await user.save();
-        res.send(user);
-    } catch (error) {
-        res.status(500).send(error.message);
-    }
-});
-
 router.get('/api/doctor/me', authentication, (req,res)=>{
     try {
         res.send(req.user);

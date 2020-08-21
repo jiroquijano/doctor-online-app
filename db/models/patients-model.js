@@ -12,10 +12,6 @@ const patientSchema = mongoose.Schema({
             type: String,
             required: true,
             trim: true
-        },
-        middlename: {
-            type: String,
-            trim: true
         }
     },
     email: {
@@ -65,5 +61,5 @@ const patientSchema = mongoose.Schema({
     }]
 });
 
-const Patient = new mongoose.model('Patient', patientSchema);
-module.exports = Patient;
+const Patients = new mongoose.model('Patient', patientSchema);
+module.exports = Patients;

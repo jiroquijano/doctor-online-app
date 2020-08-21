@@ -1,32 +1,40 @@
-import React, {useState} from 'react';
-import axios from 'axios';
+import React, {useState, useEffect} from 'react';
+import useAxios from '../customhooks/useAxios';
 
 const LoginForm = () => {
-    const [email, setEmail] = useState(null);
-    const [password, setPassword] = useState(null);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [url, setUrl] = useState('');
+    const [options, setOptions] = useState('');
+    const {response, error,loading} = useAxios(url, options);
+
+    useEffect(()=>{
+        if(response){
+            localStorage.setItem("token",response.token);
+        }
+        if(error){
+            alert("log in failed");
+            localStorage.removeItem("token");
+        }
+    }, [response,error]);
+
+    useEffect(()=>{
+        if(loading === false){
+            setEmail('');
+            setPassword('');
+        }
+    },[loading]);
 
     const submitHandler = (e) => {
         e.preventDefault();
         const data = JSON.stringify({email,password});
-        const result = axios({
-            method:'post',
-            url: '/api/doctor/login',
+        setUrl('/api/login');
+        setOptions({
+            method: 'post',
             headers: {
                 'Content-type' : 'application/json'
             },
             data : data
-        });
-        result.then((response)=>{
-            localStorage.setItem("token",response.data.token);
-        });
-        result.catch((error)=>{
-            console.log(error);
-            alert("log in failed");
-            localStorage.removeItem("token");
-        });
-        result.finally(()=>{
-            setEmail('');
-            setPassword('');
         });
     };
 

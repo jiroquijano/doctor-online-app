@@ -11,9 +11,6 @@ const Header = () =>(
             <NavLink to="/login" activeClassName="nav-link--selected">
                 Login
             </NavLink>
-            <NavLink to="/register" activeClassName="nav-link--selected">
-                Register
-            </NavLink>
         </nav>
     </>
 );
