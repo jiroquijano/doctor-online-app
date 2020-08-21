@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const useAxios = (url, options)=>{
     const [response, setResponse] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState('idle');
     const [error, setError] = useState(null);
 
     useEffect(()=>{
@@ -16,15 +16,15 @@ const useAxios = (url, options)=>{
         };
 
         const callAxios = async () =>{
-            setLoading(true);
+            setLoading('loading');
             if(url==='') return;
             try {
                 const result = await axios(config);
                 setResponse(result.data);
             } catch (error) {
-                setError(error);
+                setError(error.response.data);
             }finally{
-                setLoading(false);
+                setLoading('done');
             }
         };
 

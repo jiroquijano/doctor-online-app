@@ -15,25 +15,23 @@ const RegistrationForm = () => {
     let history = useHistory();
 
     useEffect(()=>{
-        if(response){
-            console.log(response);
-            history.push('/');
+        if(loading==='done'){
+            if(response){
+                console.log(response);
+                setAccountType('patient');
+                setEmail('');
+                setPassword('');
+                setSpecializations([]);
+                setLicenceNumber('');
+                setName({});
+                history.push('/');
+            }
+            if(error){
+                const problem = error.includes('E11000')?'email already in use!':error;
+                alert(problem);
+            }
         }
-        if(error){
-            console.log(error);
-        }
-    },[response,error,history]);
-
-    useEffect(()=>{
-        if(loading === false){
-            setAccountType('patient');
-            setEmail('');
-            setPassword('');
-            setSpecializations([]);
-            setLicenceNumber('');
-            setName({});
-        }
-    },[loading]);
+    },[response,error,loading,history]);
 
     const onSubmitHandler = (e)=>{
         e.preventDefault();

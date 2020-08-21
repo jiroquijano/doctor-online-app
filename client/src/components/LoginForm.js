@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 import useAxios from '../customhooks/useAxios';
 
 const LoginForm = () => {
@@ -7,23 +8,22 @@ const LoginForm = () => {
     const [url, setUrl] = useState('');
     const [options, setOptions] = useState('');
     const {response, error,loading} = useAxios(url, options);
+    let history = useHistory();
 
     useEffect(()=>{
-        if(response){
-            localStorage.setItem("token",response.token);
+        if(loading === 'done'){
+            if(response){
+                localStorage.setItem("token",response.token);
+                setEmail('');
+                setPassword('');
+                history.push('/');
+            }
+            if(error){
+                alert(error);
+                localStorage.removeItem("token");
+            }
         }
-        if(error){
-            alert("log in failed");
-            localStorage.removeItem("token");
-        }
-    }, [response,error]);
-
-    useEffect(()=>{
-        if(loading === false){
-            setEmail('');
-            setPassword('');
-        }
-    },[loading]);
+    }, [response,error,loading,history]);
 
     const submitHandler = (e) => {
         e.preventDefault();
