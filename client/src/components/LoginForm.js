@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {useHistory} from 'react-router-dom';
 import useAxios from '../customhooks/useAxios';
+import authContext from '../context/AuthenticationContext';
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
@@ -9,6 +10,7 @@ const LoginForm = () => {
     const [options, setOptions] = useState('');
     const {response, error,loading} = useAxios(url, options);
     let history = useHistory();
+    const auth = useContext(authContext);
 
     useEffect(()=>{
         if(loading === 'done'){
@@ -16,6 +18,7 @@ const LoginForm = () => {
                 localStorage.setItem("token",response.token);
                 setEmail('');
                 setPassword('');
+                auth.authDispatch({type: 'LOG_IN'});
                 history.push('/');
             }
             if(error){
@@ -23,7 +26,7 @@ const LoginForm = () => {
                 localStorage.removeItem("token");
             }
         }
-    }, [response,error,loading,history]);
+    }, [response,error,loading,history,auth]);
 
     const submitHandler = (e) => {
         e.preventDefault();
