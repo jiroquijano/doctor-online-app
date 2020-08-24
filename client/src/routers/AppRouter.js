@@ -7,6 +7,7 @@ import {BrowserRouter as Router,Switch,Route} from 'react-router-dom';
 import AuthContext from '../context/AuthenticationContext';
 import authReducer from '../reducers/authReducer';
 import useAxios from '../customhooks/useAxios';
+import PublicRoute from './PublicRoute';
 
 const AppRouter = () =>{
     const token = useRef(localStorage.getItem('token'));
@@ -28,14 +29,7 @@ const AppRouter = () =>{
 
     useEffect(()=>{
         if(loading === 'done'){
-            if(response){
-                console.log('logged in!');
-                setAuth(true);
-            }
-            if(error){
-                console.log('logged out!');
-                setAuth(false);
-            }
+            setAuth(!!response);
         }
     },[response, error, loading]);
 
@@ -59,8 +53,8 @@ const AppRouter = () =>{
                 <Header/>
                 <Switch>
                     <Route path="/" exact component={HomePage}/>
-                    <Route path="/login" component={LoginPage}/>
-                    <Route path="/register" component={RegistrationPage}/>
+                    <PublicRoute path="/login" component={LoginPage}/>
+                    <PublicRoute path="/register" component={RegistrationPage}/>
                 </Switch>
             </Router>
         </AuthContext.Provider>);
