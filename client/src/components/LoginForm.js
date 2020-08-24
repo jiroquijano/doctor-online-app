@@ -7,8 +7,8 @@ const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [url, setUrl] = useState('');
-    const [options, setOptions] = useState('');
-    const {response, error,loading} = useAxios(url, options);
+    const [options, setOptions] = useState({});
+    const {response, error,loading} = useAxios(url,options);
     let history = useHistory();
     const auth = useContext(authContext);
 

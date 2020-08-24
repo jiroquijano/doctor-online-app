@@ -10,15 +10,18 @@ const useAxios = (url, options)=>{
     const [error, setError] = useState(null);
 
     useEffect(()=>{
+        //configure axios
         const config = {
             url,
             ...options
         };
 
+        //reset states
         setResponse(null);
         setLoading('idle');
         setError(null);
 
+        //setup axios call and hook results
         const callAxios = async () =>{
             setLoading('loading');
             if(url==='') return;
@@ -32,6 +35,7 @@ const useAxios = (url, options)=>{
             }
         };
 
+        //execute
         callAxios();
     },[url,options]);
 
