@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer,useEffect,useState} from 'react';
 import Header from '../components/Header';
 import LoginPage from '../components/LoginPage';
 import HomePage from '../components/HomePage';
@@ -8,9 +8,17 @@ import AuthContext from '../context/AuthenticationContext';
 import authReducer from '../reducers/authReducer';
 
 const AppRouter = () =>{
-    const [authentication, authDispatch] = useReducer(authReducer);
+    const token = localStorage.getItem('token');
+    const [authToken, authDispatch] = useReducer(authReducer);
+    const [isAuthenticated, setAuth] = useState(false);
+
+    useEffect(()=>{
+        token ? setAuth(true) : setAuth(false);
+        console.log(`logged ${isAuthenticated ? 'in' : 'out'}`);
+    },[authToken,token,isAuthenticated]);
+
     return (
-        <AuthContext.Provider value={{authentication, authDispatch}}>
+        <AuthContext.Provider value={{isAuthenticated, authDispatch}}>
             <Router>
                 <Header/>
                 <Switch>

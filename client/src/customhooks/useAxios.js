@@ -15,6 +15,10 @@ const useAxios = (url, options)=>{
             ...options
         };
 
+        setResponse(null);
+        setLoading('idle');
+        setError(null);
+
         const callAxios = async () =>{
             setLoading('loading');
             if(url==='') return;

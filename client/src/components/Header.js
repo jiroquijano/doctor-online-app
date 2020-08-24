@@ -12,20 +12,23 @@ const Header = () =>{
                     Home
                 </NavLink>
                 {
-                    auth.authentication ? (
+                    auth.isAuthenticated ? (
                         <>
                             <NavLink 
                                 to="/logout" 
                                 activeClassName="nav-link--selected"
-                                onClick={()=>auth.authDispatch({type:'LOG_OUT'})}
+                                onClick={()=>{
+                                    localStorage.removeItem('token');
+                                    auth.authDispatch({type:'CLEAR_TOKEN'});
+                                }}
                             >
-                                Log Out
+                                Log out
                             </NavLink>
                         </>
                     ) : (
                         <>
                             <NavLink to="/login" activeClassName="nav-link--selected">
-                                Login
+                                Log in
                             </NavLink>
                         </>
                     )

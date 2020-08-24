@@ -1,15 +1,25 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import LoginForm from './LoginForm';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
+import authContext from '../context/AuthenticationContext';
 
 const LoginPage = () => {
+    const auth = useContext(authContext);
     return (
         <>
-            <LoginForm/>
-            <div>
-                Not yet registered?
-                <Link to="/register">Register here</Link>
-            </div>
+            {
+                auth.isAuthenticated ? (
+                    <Redirect to="/"/>
+                ):(
+                    <>
+                        <LoginForm/>
+                        <div>
+                            Not yet registered?
+                            <Link to="/register">Register here</Link>
+                        </div>
+                    </>
+                )
+            }
         </>
     );
 };

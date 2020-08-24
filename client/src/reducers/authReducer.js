@@ -1,10 +1,9 @@
 const authReducer = (state, action)=>{
     switch(action.type){
-        case 'LOG_IN':
-            console.log('log in!');
-            return true;
-        case 'LOG_OUT':
-            return false;
+        case 'SAVE_TOKEN':
+            return action.token;
+        case 'CLEAR_TOKEN':
+            return '';
         default:
             return state;
     }

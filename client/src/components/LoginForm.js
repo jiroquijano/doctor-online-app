@@ -15,15 +15,19 @@ const LoginForm = () => {
     useEffect(()=>{
         if(loading === 'done'){
             if(response){
-                localStorage.setItem("token",response.token);
                 setEmail('');
                 setPassword('');
-                auth.authDispatch({type: 'LOG_IN'});
+                localStorage.setItem("token",response.token);
+                auth.authDispatch({
+                    type: 'SAVE_TOKEN',
+                    token: response.token
+                });
                 history.push('/');
             }
             if(error){
                 alert(error);
                 localStorage.removeItem("token");
+                auth.authDispatch({type: 'CLEAR_TOKEN'});
             }
         }
     }, [response,error,loading,history,auth]);
