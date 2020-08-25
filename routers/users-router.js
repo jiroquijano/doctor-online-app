@@ -2,11 +2,17 @@ const express = require('express');
 const User = require('../db/models/user-model');
 const router = new express.Router();
 const authentication = require('../middleware/auth');
+const Doctor = require('../db/models/doctors-model');
+const Patient = require('../db/models/patients-model');
 
 router.post('/api/register', async(req,res)=>{
     try{
         const user = new User(req.body);
         await user.generateToken();
+        const specificRegistration = req.body.accountType === 'doctor' ?
+            new Doctor(req.body) : new Patient (req.body);
+        specificRegistration.accountLink = user._id;
+        await specificRegistration.save();
         await user.save();
         res.send(user);
     }catch(error){

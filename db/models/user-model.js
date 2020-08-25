@@ -17,7 +17,8 @@ const userSchema = mongoose.Schema({
     },
     accountType: {
         type: String,
-        required: true
+        required: true,
+        enum : ['doctor', 'patient']
     },
     token: {
         type: String,

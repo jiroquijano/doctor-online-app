@@ -21,7 +21,7 @@ const doctorSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    availability:{
+    isLicenceVerified:{
         type: Boolean,
         default: false
     },
@@ -32,7 +32,11 @@ const doctorSchema = mongoose.Schema({
         },
         date: {type: String}
     }],
-    contactNumer:{type: Number}
+    contactNumer:{type: Number},
+    accountLink : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 const Doctors = new mongoose.model('Doctor', doctorSchema);

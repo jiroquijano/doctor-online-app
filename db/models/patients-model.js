@@ -8,7 +8,7 @@ const patientSchema = mongoose.Schema({
             required: true,
             trim: true
         },
-        surname: {
+        lastName: {
             type: String,
             required: true,
             trim: true
@@ -58,7 +58,11 @@ const patientSchema = mongoose.Schema({
         chiefComplaint: {type: String},
         diagnosis: {type: String},
         advice: {type: String}
-    }]
+    }],
+    accountLink : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 const Patients = new mongoose.model('Patient', patientSchema);
